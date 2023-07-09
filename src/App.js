@@ -1,26 +1,34 @@
 import "./App.css";
 import Customers from "./Customers";
+import {
+    Table,
+    TableHead,
+    TableRow,
+    TableCell,
+    TableBody,
+} from "@mui/material";
 
 function App() {
     return (
         <div className="App">
-            <table>
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Image</th>
-                        <th>Name</th>
-                        <th>Birthday</th>
-                        <th>Gender</th>
-                        <th>Job</th>
-                    </tr>
-                </thead>
-                <tbody>
+            <h1>User Table</h1>
+            <Table>
+                <TableHead>
+                    <TableRow>
+                        <TableCell>ID</TableCell>
+                        <TableCell>Image</TableCell>
+                        <TableCell>Name</TableCell>
+                        <TableCell>Birthday</TableCell>
+                        <TableCell>Gender</TableCell>
+                        <TableCell>Job</TableCell>
+                    </TableRow>
+                </TableHead>
+                <TableBody>
                     {users.map((user) => (
                         <Customers user={user} key={user.id} />
                     ))}
-                </tbody>
-            </table>
+                </TableBody>
+            </Table>
         </div>
     );
 }
