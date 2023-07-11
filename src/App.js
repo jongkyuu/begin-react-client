@@ -1,5 +1,5 @@
-import "./App.css";
 import Customers from "./Customers";
+import Counter from "./Counter";
 import {
     Table,
     TableHead,
@@ -29,6 +29,8 @@ function App() {
                     ))}
                 </TableBody>
             </Table>
+
+            <Counter />
         </div>
     );
 }
