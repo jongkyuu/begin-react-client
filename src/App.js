@@ -1,5 +1,6 @@
 import Customers from "./Customers";
 import Counter from "./Counter";
+import InputSample from "./InputSample";
 import {
     Table,
     TableHead,
@@ -31,6 +32,10 @@ function App() {
             </Table>
 
             <Counter />
+
+            <div>
+                <InputSample />
+            </div>
         </div>
     );
 }
