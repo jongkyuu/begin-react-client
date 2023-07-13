@@ -35,8 +35,6 @@ function App() {
             job,
         };
 
-        console.log(user);
-
         setUsers([...users, user]);
 
         setInputs({
@@ -47,6 +45,10 @@ function App() {
         });
 
         nextId.current += 1;
+    };
+
+    const onDelete = (id) => {
+        setUsers(users.filter((user) => user.id !== id));
     };
 
     const [inputs, setInputs] = useState({
@@ -111,7 +113,11 @@ function App() {
                 </TableHead>
                 <TableBody>
                     {users.map((user) => (
-                        <Customers user={user} key={user.id} />
+                        <Customers
+                            user={user}
+                            onDelete={onDelete}
+                            key={user.id}
+                        />
                     ))}
                 </TableBody>
             </Table>
