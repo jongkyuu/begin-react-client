@@ -33,6 +33,7 @@ function App() {
             birthday,
             gender,
             job,
+            active: false,
         };
 
         setUsers([...users, user]);
@@ -49,6 +50,25 @@ function App() {
 
     const onDelete = (id) => {
         setUsers(users.filter((user) => user.id !== id));
+    };
+
+    const onTogle = (id) => {
+        console.log(`${id}`);
+        setUsers(
+            users.map(
+                (user) =>
+                    user.id === id ? { ...user, active: !user.active } : user
+                // {
+                //     if (user.id === id) {
+                //         console.log(`${user.id}, ${user.active}`);
+                //         return {
+                //             ...user,
+                //             active: !user.active,
+                //         };
+                //     }
+                // }
+            )
+        );
     };
 
     const [inputs, setInputs] = useState({
@@ -68,6 +88,7 @@ function App() {
             birthday: "1985-07-15",
             gender: "Male",
             job: "Software Engineer",
+            active: false,
         },
         {
             id: 2,
@@ -76,6 +97,7 @@ function App() {
             birthday: "1990-03-22",
             gender: "Female",
             job: "Marketing Manager",
+            active: false,
         },
         {
             id: 3,
@@ -84,6 +106,7 @@ function App() {
             birthday: "1978-11-05",
             gender: "Male",
             job: "Teacher",
+            active: false,
         },
     ]);
 
@@ -117,16 +140,11 @@ function App() {
                             user={user}
                             onDelete={onDelete}
                             key={user.id}
+                            onTogle={onTogle}
                         />
                     ))}
                 </TableBody>
             </Table>
-
-            <Counter />
-
-            <div>
-                <InputSample />
-            </div>
         </div>
     );
 }

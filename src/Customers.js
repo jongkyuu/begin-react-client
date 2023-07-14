@@ -2,7 +2,7 @@ import React from "react";
 import "./Customers.css";
 import { TableRow, TableCell } from "@mui/material";
 
-function Customers({ user, onDelete }) {
+function Customers({ user, onDelete, onTogle }) {
     return (
         <>
             <TableRow key={user.id}>
@@ -15,7 +15,15 @@ function Customers({ user, onDelete }) {
                         height="64"
                     />
                 </TableCell>
-                <TableCell>{user.name}</TableCell>
+                <TableCell
+                    style={{
+                        cursor: "pointer",
+                        color: user.active ? "green" : "black",
+                    }}
+                    onClick={() => onTogle(user.id)}
+                >
+                    {user.name}
+                </TableCell>
                 <TableCell>{user.birthday}</TableCell>
                 <TableCell>{user.gender}</TableCell>
                 <TableCell>{user.job}</TableCell>
