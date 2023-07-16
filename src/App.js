@@ -1,6 +1,5 @@
 import Customers from "./Customers";
-import Counter from "./Counter";
-import InputSample from "./InputSample";
+
 import {
     Table,
     TableHead,
@@ -25,7 +24,6 @@ function App() {
     };
 
     const onCreate = () => {
-        console.log(`nextID : ${nextId.current}`);
         const user = {
             id: nextId.current,
             image: `https://picsum.photos/id/${nextId.current}/64/64`,
@@ -52,21 +50,10 @@ function App() {
         setUsers(users.filter((user) => user.id !== id));
     };
 
-    const onTogle = (id) => {
-        console.log(`${id}`);
+    const onToggle = (id) => {
         setUsers(
-            users.map(
-                (user) =>
-                    user.id === id ? { ...user, active: !user.active } : user
-                // {
-                //     if (user.id === id) {
-                //         console.log(`${user.id}, ${user.active}`);
-                //         return {
-                //             ...user,
-                //             active: !user.active,
-                //         };
-                //     }
-                // }
+            users.map((user) =>
+                user.id === id ? { ...user, active: !user.active } : user
             )
         );
     };
@@ -140,7 +127,7 @@ function App() {
                             user={user}
                             onDelete={onDelete}
                             key={user.id}
-                            onTogle={onTogle}
+                            onToggle={onToggle}
                         />
                     ))}
                 </TableBody>
