@@ -7,7 +7,7 @@ import {
     TableCell,
     TableBody,
 } from "@mui/material";
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useMemo } from "react";
 import CreateUser from "./CreateUser";
 
 function App() {
@@ -58,6 +58,11 @@ function App() {
         );
     };
 
+    const countActiveUsers = () => {
+        console.log("Counting Acitve Users");
+        return users.filter((user) => user.active === true).length;
+    };
+
     const [inputs, setInputs] = useState({
         name: "",
         birthday: "",
@@ -97,6 +102,8 @@ function App() {
         },
     ]);
 
+    const activeUserCount = useMemo(() => countActiveUsers(users), [users]);
+
     return (
         <div className="App">
             <h1>User Table</h1>
@@ -132,6 +139,8 @@ function App() {
                     ))}
                 </TableBody>
             </Table>
+
+            <div>활성 사용자수 : {activeUserCount}</div>
         </div>
     );
 }

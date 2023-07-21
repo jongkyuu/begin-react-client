@@ -5,11 +5,12 @@ import { TableRow, TableCell } from "@mui/material";
 function Customers({ user, onDelete, onToggle }) {
     useEffect(() => {
         console.log("Customers mount!");
-        console.log(user);
+        // console.log(user);
         return () => {
             console.log("Customers unmount!");
+            console.log(user);
         };
-    }, []);
+    }, [user]);
     return (
         <TableRow key={user.id}>
             <TableCell>{user.id}</TableCell>
