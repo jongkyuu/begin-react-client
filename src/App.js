@@ -7,61 +7,13 @@ import {
     TableCell,
     TableBody,
 } from "@mui/material";
-import React, { useState, useRef, useMemo } from "react";
+import React, { useState, useRef, useMemo, useCallback } from "react";
 import CreateUser from "./CreateUser";
 
 function App() {
     useState();
 
     const nextId = useRef(4);
-
-    const onChange = (e) => {
-        const { name, value } = e.target;
-        setInputs({
-            ...inputs,
-            [name]: value,
-        });
-    };
-
-    const onCreate = () => {
-        const user = {
-            id: nextId.current,
-            image: `https://picsum.photos/id/${nextId.current}/64/64`,
-            name,
-            birthday,
-            gender,
-            job,
-            active: false,
-        };
-
-        setUsers([...users, user]);
-
-        setInputs({
-            name: "",
-            birthday: "",
-            gender: "",
-            job: "",
-        });
-
-        nextId.current += 1;
-    };
-
-    const onDelete = (id) => {
-        setUsers(users.filter((user) => user.id !== id));
-    };
-
-    const onToggle = (id) => {
-        setUsers(
-            users.map((user) =>
-                user.id === id ? { ...user, active: !user.active } : user
-            )
-        );
-    };
-
-    const countActiveUsers = () => {
-        console.log("Counting Acitve Users");
-        return users.filter((user) => user.active === true).length;
-    };
 
     const [inputs, setInputs] = useState({
         name: "",
@@ -101,6 +53,63 @@ function App() {
             active: false,
         },
     ]);
+
+    const onChange = useCallback(
+        (e) => {
+            const { name, value } = e.target;
+            setInputs({
+                ...inputs,
+                [name]: value,
+            });
+        },
+        [inputs]
+    );
+
+    const onCreate = useCallback(() => {
+        const user = {
+            id: nextId.current,
+            image: `https://picsum.photos/id/${nextId.current}/64/64`,
+            name,
+            birthday,
+            gender,
+            job,
+            active: false,
+        };
+
+        setUsers([...users, user]);
+
+        setInputs({
+            name: "",
+            birthday: "",
+            gender: "",
+            job: "",
+        });
+
+        nextId.current += 1;
+    }, [name, birthday, gender, job, users]);
+
+    const onDelete = useCallback(
+        (id) => {
+            setUsers(users.filter((user) => user.id !== id));
+        },
+        [users]
+    );
+
+    const onToggle = useCallback(
+        (id) => {
+            setUsers(
+                users.map((user) =>
+                    user.id === id ? { ...user, active: !user.active } : user
+                )
+            );
+        },
+        [users]
+    );
+
+    const countActiveUsers = useCallback(() => {
+        console.log("Counting Acitve Users");
+        return users.filter((user) => user.active === true).length;
+    }, [users]);
 
     const activeUserCount = useMemo(() => countActiveUsers(users), [users]);
 
