@@ -1,12 +1,6 @@
-import Customers from "./Customers";
+import UserList from "./User";
 
-import {
-    Table,
-    TableHead,
-    TableRow,
-    TableCell,
-    TableBody,
-} from "@mui/material";
+
 import React, { useState, useRef, useMemo, useCallback } from "react";
 import CreateUser from "./CreateUser";
 
@@ -126,28 +120,12 @@ function App() {
                 onCreate={onCreate}
             />
 
-            <Table>
-                <TableHead>
-                    <TableRow>
-                        <TableCell>ID</TableCell>
-                        <TableCell>Image</TableCell>
-                        <TableCell>Name</TableCell>
-                        <TableCell>Birthday</TableCell>
-                        <TableCell>Gender</TableCell>
-                        <TableCell>Job</TableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {users.map((user) => (
-                        <Customers
-                            user={user}
-                            onDelete={onDelete}
-                            key={user.id}
-                            onToggle={onToggle}
-                        />
-                    ))}
-                </TableBody>
-            </Table>
+            <UserList
+                users={users}
+                onDelete={onDelete}
+                onToggle={onToggle}/>
+
+
 
             <div>활성 사용자수 : {activeUserCount}</div>
         </div>
