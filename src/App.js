@@ -2,21 +2,21 @@ import UserList from "./User";
 import React, { useState, useRef, useMemo, useCallback } from "react";
 import CreateUser from "./CreateUser";
 
-function App() {
-    useState();
 
-    const nextId = useRef(4);
+function countActiveUsers(users) {
+    console.log("Counting Acitve Users");
+    return users.filter((user) => user.active === true).length;
+};
 
-    const [inputs, setInputs] = useState({
+const initialState = {
+    inputs:{
         name: "",
         birthday: "",
         gender: "",
         job: "",
-    });
-
-    const { name, birthday, gender, job } = inputs;
-
-    const [users, setUsers] = useState([
+    },
+    
+    users: [
         {
             id: 1,
             image: "https://picsum.photos/id/1/64/64",
@@ -43,89 +43,21 @@ function App() {
             gender: "Male",
             job: "Teacher",
             active: false,
-        },
-    ]);
+        }
+    ]
+};
 
-    const onChange = useCallback(
-        (e) => {
-            const { name, value } = e.target;
-            setInputs({
-                ...inputs,
-                [name]: value,
-            });
-        },
-        [inputs]
-    );
-
-    const onCreate = useCallback(() => {
-        const user = {
-            id: nextId.current,
-            image: `https://picsum.photos/id/${nextId.current}/64/64`,
-            name,
-            birthday,
-            gender,
-            job,
-            active: false,
-        };
-
-        setUsers(users => [...users, user]);
-
-        setInputs({
-            name: "",
-            birthday: "",
-            gender: "",
-            job: "",
-        });
-
-        nextId.current += 1;
-    }, [name, birthday, gender, job]);
-
-    const onDelete = useCallback(
-        (id) => {
-            setUsers(users => users.filter((user) => user.id !== id));
-        },
-        []
-    );
-
-    const onToggle = useCallback(
-        (id) => {
-            setUsers(users =>
-                users.map((user) =>
-                    user.id === id ? { ...user, active: !user.active } : user
-                )
-            );
-        },
-        []
-    );
-
-    const countActiveUsers = useCallback(() => {
-        console.log("Counting Acitve Users");
-        return users.filter((user) => user.active === true).length;
-    }, [users]);
-
-    const activeUserCount = useMemo(() => countActiveUsers(users), [users]);
-
+function App() {
     return (
         <div className="App">
             <h1>User Table</h1>
-
             <CreateUser
-                name={name}
-                birthday={birthday}
-                gender={gender}
-                job={job}
-                onChange={onChange}
-                onCreate={onCreate}
             />
 
             <UserList
-                users={users}
-                onDelete={onDelete}
-                onToggle={onToggle}/>
+                users={[]}/>
 
-
-
-            <div>활성 사용자수 : {activeUserCount}</div>
+            <div>활성 사용자수 : 0</div>
         </div>
     );
 }
