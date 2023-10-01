@@ -1,6 +1,4 @@
 import UserList from "./User";
-
-
 import React, { useState, useRef, useMemo, useCallback } from "react";
 import CreateUser from "./CreateUser";
 
@@ -70,7 +68,7 @@ function App() {
             active: false,
         };
 
-        setUsers([...users, user]);
+        setUsers(users => [...users, user]);
 
         setInputs({
             name: "",
@@ -80,24 +78,24 @@ function App() {
         });
 
         nextId.current += 1;
-    }, [name, birthday, gender, job, users]);
+    }, [name, birthday, gender, job]);
 
     const onDelete = useCallback(
         (id) => {
-            setUsers(users.filter((user) => user.id !== id));
+            setUsers(users => users.filter((user) => user.id !== id));
         },
-        [users]
+        []
     );
 
     const onToggle = useCallback(
         (id) => {
-            setUsers(
+            setUsers(users =>
                 users.map((user) =>
                     user.id === id ? { ...user, active: !user.active } : user
                 )
             );
         },
-        [users]
+        []
     );
 
     const countActiveUsers = useCallback(() => {

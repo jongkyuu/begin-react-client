@@ -32,4 +32,4 @@ function CreateUser({ name, birthday, gender, job, onChange, onCreate }) {
     );
 }
 
-export default CreateUser;
+export default React.memo(CreateUser);

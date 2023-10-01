@@ -1,7 +1,5 @@
 import React, { useEffect } from "react";
 import "./User.css";
-// import { TableRow, TableCell } from "@mui/material";
-
 import {
     Table,
     TableHead,
@@ -38,13 +36,13 @@ function UserList({ users, onDelete, onToggle }) {
 
 }
 
-function User({ user, onDelete, onToggle }) {
+const User = React.memo(function User({ user, onDelete, onToggle }) {
     useEffect(() => {
-        console.log("Users mount!");
+        // console.log("Users mount!");
         // console.log(user);
         return () => {
-            console.log("Users unmount!");
-            console.log(user);
+            // console.log("Users unmount!");
+            // console.log(user);
         };
     }, [user]);
     return (
@@ -70,6 +68,6 @@ function User({ user, onDelete, onToggle }) {
             </TableCell>
         </TableRow>
     );
-}
+});
 
-export default UserList;
+export default React.memo(UserList);
