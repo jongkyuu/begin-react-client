@@ -8,7 +8,7 @@ import {
     TableBody,
 } from "@mui/material";
 
-function UserList({ users, onDelete, onToggle }) {
+function UserList({ users, onRemove, onToggle }) {
     return (
         <Table>
             <TableHead>
@@ -25,7 +25,7 @@ function UserList({ users, onDelete, onToggle }) {
                 {users.map((user) => (
                     <User
                         user={user}
-                        onDelete={onDelete}
+                        onRemove={onRemove}
                         key={user.id}
                         onToggle={onToggle}
                     />
@@ -36,7 +36,7 @@ function UserList({ users, onDelete, onToggle }) {
 
 }
 
-const User = React.memo(function User({ user, onDelete, onToggle }) {
+const User = React.memo(function User({ user, onRemove, onToggle }) {
     useEffect(() => {
         // console.log("Users mount!");
         // console.log(user);
@@ -64,7 +64,7 @@ const User = React.memo(function User({ user, onDelete, onToggle }) {
             <TableCell>{user.gender}</TableCell>
             <TableCell>{user.job}</TableCell>
             <TableCell>
-                <button onClick={() => onDelete(user.id)}>삭제</button>
+                <button onClick={() => onRemove(user.id)}>삭제</button>
             </TableCell>
         </TableRow>
     );
