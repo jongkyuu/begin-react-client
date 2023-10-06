@@ -1,6 +1,7 @@
 import UserList from "./User";
 import React, { useReducer, useRef, useMemo, useCallback } from "react";
 import CreateUser from "./CreateUser";
+import useInputs from "./useInputs";
 
 
 function countActiveUsers(users) {
@@ -9,12 +10,12 @@ function countActiveUsers(users) {
 };
 
 const initialState = {
-    inputs:{
-        name: "",
-        birthday: "",
-        gender: "",
-        job: "",
-    },
+    // inputs:{
+    //     name: "",
+    //     birthday: "",
+    //     gender: "",
+    //     job: "",
+    // },
     
     users: [
         {
@@ -49,14 +50,14 @@ const initialState = {
 
 function reducer(state, action){
     switch (action.type) {
-        case "CHANGE_INPUT":
-            return {
-                ...state, // 불변성을 지키기 위함
-                inputs: {
-                    ...state.inputs,
-                    [action.name]: action.value
-                }
-            }
+        // case "CHANGE_INPUT":
+        //     return {
+        //         ...state, // 불변성을 지키기 위함
+        //         inputs: {
+        //             ...state.inputs,
+        //             [action.name]: action.value
+        //         }
+        //     }
         case "CREATE_USER":
             return {
                 inputs: initialState.inputs,
@@ -81,16 +82,24 @@ function App() {
     const [state, dispatch] = useReducer(reducer, initialState);
     const nextId = useRef(4);
     const { users } = state;
-    const {name, birthday, gender, job } = state.inputs;
+    const [form, onChange, reset] = useInputs({
+        name: "",
+        birthday: "",
+        gender: "",
+        job: "",
+    });
 
-    const onChange = useCallback(e => {
-        const {name, value} = e.target;
-        dispatch({
-            type: "CHANGE_INPUT",
-            name,
-            value
-        })
-    }, []);
+    const {name, birthday, gender, job } = form;
+    // const {name, birthday, gender, job } = state.inputs;
+
+    // const onChange = useCallback(e => {
+    //     const {name, value} = e.target;
+    //     dispatch({
+    //         type: "CHANGE_INPUT",
+    //         name,
+    //         value
+    //     })
+    // }, []);
 
     const onCreate = useCallback(() => {
         dispatch({
@@ -106,7 +115,8 @@ function App() {
             }
         });
         nextId.current += 1;
-    }, [name, birthday, gender, job]);
+        reset();
+    }, [name, birthday, gender, job, reset]);
 
     const onToggle = useCallback(id => {
         dispatch({
