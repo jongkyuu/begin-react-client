@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useContext } from "react";
 import "./User.css";
 import {
     Table,
@@ -7,8 +7,9 @@ import {
     TableCell,
     TableBody,
 } from "@mui/material";
+import { UserDispatch } from "./App";
 
-function UserList({ users, onRemove, onToggle }) {
+function UserList({ users }) {
     return (
         <Table>
             <TableHead>
@@ -23,20 +24,14 @@ function UserList({ users, onRemove, onToggle }) {
             </TableHead>
             <TableBody>
                 {users.map((user) => (
-                    <User
-                        user={user}
-                        onRemove={onRemove}
-                        key={user.id}
-                        onToggle={onToggle}
-                    />
+                    <User user={user} key={user.id} />
                 ))}
             </TableBody>
-        </Table>    
+        </Table>
     );
-
 }
 
-const User = React.memo(function User({ user, onRemove, onToggle }) {
+const User = React.memo(function User({ user }) {
     useEffect(() => {
         // console.log("Users mount!");
         // console.log(user);
@@ -45,26 +40,44 @@ const User = React.memo(function User({ user, onRemove, onToggle }) {
             // console.log(user);
         };
     }, [user]);
+
+    const { id, image, name, birthday, gender, job, active } = user;
+    const dispatch = useContext(UserDispatch);
+
     return (
-        <TableRow key={user.id}>
-            <TableCell>{user.id}</TableCell>
+        <TableRow key={id}>
+            <TableCell>{id}</TableCell>
             <TableCell>
-                <img src={user.image} alt={user.name} width="64" height="64" />
+                <img src={image} alt={name} width="64" height="64" />
             </TableCell>
             <TableCell
                 style={{
                     cursor: "pointer",
-                    color: user.active ? "green" : "black",
+                    color: active ? "green" : "black",
                 }}
-                onClick={() => onToggle(user.id)}
+                onClick={() =>
+                    dispatch({
+                        type: "TOGGLE_USER",
+                        id,
+                    })
+                }
             >
-                {user.name}
+                {name}
             </TableCell>
-            <TableCell>{user.birthday}</TableCell>
-            <TableCell>{user.gender}</TableCell>
-            <TableCell>{user.job}</TableCell>
+            <TableCell>{birthday}</TableCell>
+            <TableCell>{gender}</TableCell>
+            <TableCell>{job}</TableCell>
             <TableCell>
-                <button onClick={() => onRemove(user.id)}>삭제</button>
+                <button
+                    onClick={() =>
+                        dispatch({
+                            type: "REMOVE_USER",
+                            id,
+                        })
+                    }
+                >
+                    삭제
+                </button>
             </TableCell>
         </TableRow>
     );

@@ -1,13 +1,18 @@
 import UserList from "./User";
-import React, { useReducer, useRef, useMemo, useCallback } from "react";
+import React, {
+    useReducer,
+    useRef,
+    useMemo,
+    useCallback,
+    createContext,
+} from "react";
 import CreateUser from "./CreateUser";
 import useInputs from "./useInputs";
-
 
 function countActiveUsers(users) {
     console.log("Counting Acitve Users");
     return users.filter((user) => user.active === true).length;
-};
+}
 
 const initialState = {
     // inputs:{
@@ -16,7 +21,7 @@ const initialState = {
     //     gender: "",
     //     job: "",
     // },
-    
+
     users: [
         {
             id: 1,
@@ -44,11 +49,11 @@ const initialState = {
             gender: "Male",
             job: "Teacher",
             active: false,
-        }
-    ]
+        },
+    ],
 };
 
-function reducer(state, action){
+function reducer(state, action) {
     switch (action.type) {
         // case "CHANGE_INPUT":
         //     return {
@@ -61,22 +66,28 @@ function reducer(state, action){
         case "CREATE_USER":
             return {
                 inputs: initialState.inputs,
-                users: state.users.concat(action.user)
-            }
+                users: state.users.concat(action.user),
+            };
         case "TOGGLE_USER":
             return {
                 ...state,
-                users: state.users.map(user => user.id === action.id ? {...user, active: !user.active} : user)
-            }
+                users: state.users.map((user) =>
+                    user.id === action.id
+                        ? { ...user, active: !user.active }
+                        : user
+                ),
+            };
         case "REMOVE_USER":
             return {
                 ...state,
-                users: state.users.filter(user => user.id !== action.id)
-            }
+                users: state.users.filter((user) => user.id !== action.id),
+            };
         default:
             throw new Error("Unhandled action");
     }
 }
+
+export const UserDispatch = createContext(null);
 
 function App() {
     const [state, dispatch] = useReducer(reducer, initialState);
@@ -89,7 +100,7 @@ function App() {
         job: "",
     });
 
-    const {name, birthday, gender, job } = form;
+    const { name, birthday, gender, job } = form;
     // const {name, birthday, gender, job } = state.inputs;
 
     // const onChange = useCallback(e => {
@@ -105,54 +116,57 @@ function App() {
         dispatch({
             type: "CREATE_USER",
             user: {
-                id:nextId.current,
+                id: nextId.current,
                 image: `https://picsum.photos/id/${nextId.current}/64/64`,
                 name,
                 birthday,
                 gender,
                 job,
-                active: false
-            }
+                active: false,
+            },
         });
         nextId.current += 1;
         reset();
     }, [name, birthday, gender, job, reset]);
 
-    const onToggle = useCallback(id => {
-        dispatch({
-            type: "TOGGLE_USER",
-            id
-        });
-    }, []);
+    // const onToggle = useCallback(id => {
+    //     dispatch({
+    //         type: "TOGGLE_USER",
+    //         id
+    //     });
+    // }, []);
 
-    const onRemove = useCallback(id => {
-        dispatch({
-            type: "REMOVE_USER",
-            id
-        });
-    }, []);
+    // const onRemove = useCallback(id => {
+    //     dispatch({
+    //         type: "REMOVE_USER",
+    //         id
+    //     });
+    // }, []);
 
     const count = useMemo(() => countActiveUsers(users), [users]);
 
     return (
-        <div className="App">
-            <h1>User Table</h1>
-            <CreateUser 
-                name={name} 
-                birthday={birthday} 
-                gender={gender} 
-                job={job} 
-                onChange={onChange}
-                onCreate={onCreate}
-            />
+        <UserDispatch.Provider value={dispatch}>
+            <div className="App">
+                <h1>User Table</h1>
+                <CreateUser
+                    name={name}
+                    birthday={birthday}
+                    gender={gender}
+                    job={job}
+                    onChange={onChange}
+                    onCreate={onCreate}
+                />
 
-            <UserList
-                users={users}
-                onToggle={onToggle}
-                onRemove={onRemove}/>
+                <UserList
+                    users={users}
+                    // onToggle={onToggle}
+                    // onRemove={onRemove}
+                />
 
-            <div>활성 사용자수 : {count}</div>
-        </div>
+                <div>활성 사용자수 : {count}</div>
+            </div>
+        </UserDispatch.Provider>
     );
 }
 
