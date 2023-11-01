@@ -7,7 +7,7 @@ import React, {
     createContext,
 } from "react";
 import CreateUser from "./CreateUser";
-import useInputs from "./useInputs";
+// import useInputs from "./useInputs";
 
 function countActiveUsers(users) {
     console.log("Counting Acitve Users");
@@ -55,14 +55,14 @@ const initialState = {
 
 function reducer(state, action) {
     switch (action.type) {
-        // case "CHANGE_INPUT":
-        //     return {
-        //         ...state, // 불변성을 지키기 위함
-        //         inputs: {
-        //             ...state.inputs,
-        //             [action.name]: action.value
-        //         }
-        //     }
+        case "CHANGE_INPUT":
+            return {
+                ...state, // 불변성을 지키기 위함
+                inputs: {
+                    ...state.inputs,
+                    [action.name]: action.value,
+                },
+            };
         case "CREATE_USER":
             return {
                 inputs: initialState.inputs,
@@ -91,17 +91,17 @@ export const UserDispatch = createContext(null);
 
 function App() {
     const [state, dispatch] = useReducer(reducer, initialState);
-    const nextId = useRef(4);
+    // const nextId = useRef(4);
     const { users } = state;
-    const [form, onChange, reset] = useInputs({
-        name: "",
-        birthday: "",
-        gender: "",
-        job: "",
-    });
+    // const [form, onChange, reset] = useInputs({
+    //     name: "",
+    //     birthday: "",
+    //     gender: "",
+    //     job: "",
+    // });
 
-    const { name, birthday, gender, job } = form;
-    // const {name, birthday, gender, job } = state.inputs;
+    // const { name, birthday, gender, job } = form;
+    // const { name, birthday, gender, job } = state.inputs;
 
     // const onChange = useCallback(e => {
     //     const {name, value} = e.target;
@@ -112,22 +112,22 @@ function App() {
     //     })
     // }, []);
 
-    const onCreate = useCallback(() => {
-        dispatch({
-            type: "CREATE_USER",
-            user: {
-                id: nextId.current,
-                image: `https://picsum.photos/id/${nextId.current}/64/64`,
-                name,
-                birthday,
-                gender,
-                job,
-                active: false,
-            },
-        });
-        nextId.current += 1;
-        reset();
-    }, [name, birthday, gender, job, reset]);
+    // const onCreate = useCallback(() => {
+    //     dispatch({
+    //         type: "CREATE_USER",
+    //         user: {
+    //             id: nextId.current,
+    //             image: `https://picsum.photos/id/${nextId.current}/64/64`,
+    //             name,
+    //             birthday,
+    //             gender,
+    //             job,
+    //             active: false,
+    //         },
+    //     });
+    //     nextId.current += 1;
+    //     reset();
+    // }, [name, birthday, gender, job, reset]);
 
     // const onToggle = useCallback(id => {
     //     dispatch({
@@ -150,12 +150,12 @@ function App() {
             <div className="App">
                 <h1>User Table</h1>
                 <CreateUser
-                    name={name}
-                    birthday={birthday}
-                    gender={gender}
-                    job={job}
-                    onChange={onChange}
-                    onCreate={onCreate}
+                // name={name}
+                // birthday={birthday}
+                // gender={gender}
+                // job={job}
+                // onChange={onChange}
+                // onCreate={onCreate}
                 />
 
                 <UserList
