@@ -33,12 +33,7 @@ function UserList({ users }) {
 
 const User = React.memo(function User({ user }) {
     useEffect(() => {
-        // console.log("Users mount!");
-        // console.log(user);
-        return () => {
-            // console.log("Users unmount!");
-            // console.log(user);
-        };
+        return () => {};
     }, [user]);
 
     const { id, image, name, birthday, gender, job, active } = user;

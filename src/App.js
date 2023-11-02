@@ -7,7 +7,6 @@ import React, {
     createContext,
 } from "react";
 import CreateUser from "./CreateUser";
-// import useInputs from "./useInputs";
 
 function countActiveUsers(users) {
     console.log("Counting Acitve Users");
@@ -15,13 +14,6 @@ function countActiveUsers(users) {
 }
 
 const initialState = {
-    // inputs:{
-    //     name: "",
-    //     birthday: "",
-    //     gender: "",
-    //     job: "",
-    // },
-
     users: [
         {
             id: 1,
@@ -91,57 +83,7 @@ export const UserDispatch = createContext(null);
 
 function App() {
     const [state, dispatch] = useReducer(reducer, initialState);
-    // const nextId = useRef(4);
     const { users } = state;
-    // const [form, onChange, reset] = useInputs({
-    //     name: "",
-    //     birthday: "",
-    //     gender: "",
-    //     job: "",
-    // });
-
-    // const { name, birthday, gender, job } = form;
-    // const { name, birthday, gender, job } = state.inputs;
-
-    // const onChange = useCallback(e => {
-    //     const {name, value} = e.target;
-    //     dispatch({
-    //         type: "CHANGE_INPUT",
-    //         name,
-    //         value
-    //     })
-    // }, []);
-
-    // const onCreate = useCallback(() => {
-    //     dispatch({
-    //         type: "CREATE_USER",
-    //         user: {
-    //             id: nextId.current,
-    //             image: `https://picsum.photos/id/${nextId.current}/64/64`,
-    //             name,
-    //             birthday,
-    //             gender,
-    //             job,
-    //             active: false,
-    //         },
-    //     });
-    //     nextId.current += 1;
-    //     reset();
-    // }, [name, birthday, gender, job, reset]);
-
-    // const onToggle = useCallback(id => {
-    //     dispatch({
-    //         type: "TOGGLE_USER",
-    //         id
-    //     });
-    // }, []);
-
-    // const onRemove = useCallback(id => {
-    //     dispatch({
-    //         type: "REMOVE_USER",
-    //         id
-    //     });
-    // }, []);
 
     const count = useMemo(() => countActiveUsers(users), [users]);
 
@@ -149,20 +91,9 @@ function App() {
         <UserDispatch.Provider value={dispatch}>
             <div className="App">
                 <h1>User Table</h1>
-                <CreateUser
-                // name={name}
-                // birthday={birthday}
-                // gender={gender}
-                // job={job}
-                // onChange={onChange}
-                // onCreate={onCreate}
-                />
+                <CreateUser />
 
-                <UserList
-                    users={users}
-                    // onToggle={onToggle}
-                    // onRemove={onRemove}
-                />
+                <UserList users={users} />
 
                 <div>활성 사용자수 : {count}</div>
             </div>
